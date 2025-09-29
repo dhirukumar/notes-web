@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library" // Add this for Workers compatibility
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_direct")
+}
+
+model User {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  name        String
+  dateOfBirth DateTime  @map("date_of_birth")
+  verified    Boolean   @default(false)
+  isActive    Boolean   @default(true) @map("is_active")
+  
+  // Relationships
+  otps        Otp[]
+  sessions    Session[]
+  notes       Note[]
+  
+  // Timestamps
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  
+  @@map("users")
+}
+
+model Otp {
+  id        String    @id @default(cuid())
+  code      String
+  email     String
+  type      OtpType
+  expiresAt DateTime  @map("expires_at")
+  verified  Boolean   @default(false)
+  attempts  Int       @default(0)
+  
+  userId    String?   @map("user_id")
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  signupData Json?    @map("signup_data")
+  
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  
+  @@index([email, type])
+  @@index([expiresAt])
+  @@map("otps")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  isActive  Boolean  @default(true) @map("is_active")
+  
+  userAgent String?  @map("user_agent")
+  ipAddress String?  @map("ip_address")
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   @default("")
+  
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  @@index([userId])
+  @@index([createdAt])
+  @@map("notes")
+}
+
+enum OtpType {
+  SIGNUP
+  SIGNIN
+  PASSWORD_RESET
+  
+  @@map("otp_type")
+}

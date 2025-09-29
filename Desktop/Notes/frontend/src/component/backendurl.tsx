@@ -1,0 +1,1 @@
+ export const API_URL="https://note.dhiru952006.workers.dev"

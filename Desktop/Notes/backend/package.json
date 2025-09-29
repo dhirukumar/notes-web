@@ -1,0 +1,24 @@
+{
+  "name": "notes",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.16.2",
+    "@prisma/extension-accelerate": "^2.0.2",
+    "crypto": "^1.0.1",
+    "hono": "^4.9.9",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^7.0.6",
+    "prisma": "^6.16.2",
+    "resend": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.5.2",
+    "wrangler": "^4.4.0"
+  }
+}
