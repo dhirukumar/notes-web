@@ -303,7 +303,7 @@ const Signup: React.FC = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                placeholder="Jonas Khanwald"
+                placeholder="Dhiru Kumar"
                 disabled={showOtpField}
                 className={`w-full px-4 py-3 rounded-lg border border-gray-300 transition-colors ${
                   showOtpField ? 'bg-gray-100 cursor-not-allowed' : 'focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
@@ -352,7 +352,7 @@ const Signup: React.FC = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                placeholder="jonas_kahnwald@gmail.com"
+                placeholder="dhiru952006@gmail.com"
                 disabled={showOtpField}
                 className={`w-full px-4 py-3 rounded-lg border transition-colors ${
                   showOtpField ? 'bg-gray-100 cursor-not-allowed border-gray-300' : 'border-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
